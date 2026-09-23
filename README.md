@@ -1,33 +1,71 @@
-# BricksBrain AI 🧠🏠
+# BricksBrain AI
 
-An AI-powered real estate platform — React + Tailwind frontend, Node.js/Express backend,
-MongoDB database, and a Python/FastAPI microservice for all the machine-learning features.
-Visual style is inspired by MagicBricks-style listings platforms (red/white theme, card-based listings).
+<p align="center">
+  <img src="frontend/src/assets/logo.png" alt="BricksBrain AI logo" width="110" />
+</p>
 
-## What's included
+<h3 align="center">Smarter real estate decisions, powered by AI.</h3>
 
-| Feature | How it's implemented |
-|---|---|
-| ML price prediction | `RandomForestRegressor` (scikit-learn) trained on a generated 6,000-row synthetic Indian real-estate dataset |
-| Future price forecasting | **ARIMA** (statsmodels) + a **neural forecaster** — full LSTM if TensorFlow is installed, otherwise an automatic lightweight MLP fallback so the feature works out of the box |
-| Personalized recommendations | Content-based filtering (cosine similarity over property feature vectors + user preferences/history) |
-| Area Intelligence | Per-locality walk/safety/connectivity scores, schools/hospitals count, 5yr price growth |
-| Google Maps | Live embed if you add an API key, graceful fallback link otherwise |
-| Property comparison | Compare up to 4 properties side-by-side |
-| EMI calculator | Real amortization math with year-by-year schedule chart |
-| **AI chatbot assistant** | Intent-classification + slot-extraction NLU (regex/keyword based, no external API key required) — floating widget on every page, answers FAQs about pricing, EMI, listings, and areas |
-| **List Your Property** | Logged-in users can post their own property for free with photo uploads (up to 8 photos); submissions go to "Pending" for a quick admin review, then go live |
-| **Downloadable PDF report** | One-click, client-generated PDF report per property — specs, description, amenities, area intelligence, AI price prediction/forecast, EMI |
-| **AI interior design ideas** | Pick a room + style and get AI-generated design images (via OpenAI's image API, if `OPENAI_API_KEY` is set) or a curated inspiration gallery + design tips as a no-key fallback |
-| 3D Digital Twin | Interactive procedural building model rendered with Three.js — drag to rotate, auto-rotate, scales to the property's BHK/area |
-| Auth | JWT (httpOnly cookie + bearer token), bcrypt password hashing, role-based access (user/admin/agent) |
-| Dashboards | User dashboard (saved properties, my listings, AI recommendations, preferences) + Admin dashboard (stats, charts, pending-listing approvals, recent activity) |
+<p align="center">
+  Discover properties, understand local markets, forecast prices, and explore homes in 3D from one full-stack platform.
+</p>
 
-This is a **complete, runnable demo build**. The ML models are trained on realistic
-*synthetic* data (documented in `ai-service/train.py`) since no proprietary MLS dataset
-is bundled — swap in real listing data any time by replacing the training CSV.
+<p align="center">
+  <a href="https://github.com/Sachin993533/Bricksbrain-AI"><img src="https://img.shields.io/badge/GitHub-Bricksbrain--AI-181717?logo=github" alt="GitHub repository" /></a>
+  <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=20232a" alt="React 18" />
+  <img src="https://img.shields.io/badge/Node.js-Express-339933?logo=node.js&logoColor=white" alt="Node.js and Express" />
+  <img src="https://img.shields.io/badge/Python-FastAPI-009688?logo=fastapi&logoColor=white" alt="Python and FastAPI" />
+  <img src="https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white" alt="MongoDB" />
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#feature-highlights">Features</a> ·
+  <a href="#architecture">Architecture</a> ·
+  <a href="#api-overview">API</a>
+</p>
+
+> A complete, runnable real-estate demo combining a React + Tailwind experience, an Express API, MongoDB persistence, and a Python ML service. The included models use realistic synthetic data so the project works without proprietary MLS data.
+
+## Feature highlights
+
+### Intelligence for every decision
+
+- **AI price prediction** using a scikit-learn `RandomForestRegressor` trained on a 6,000-row Indian real-estate dataset.
+- **Future price forecasting** with ARIMA plus a neural forecaster, using an automatic lightweight MLP fallback when TensorFlow is unavailable.
+- **Personalized recommendations** based on property features, user preferences, viewed history, and saved listings.
+- **Area Intelligence** with locality scores, connectivity, safety, nearby schools and hospitals, and five-year growth.
+
+### Tools buyers actually use
+
+- Search and filter listings by city, type, listing mode, BHK, price, and sort order.
+- Compare up to four properties side by side.
+- Calculate EMI with a year-by-year amortization schedule.
+- Explore a procedural Three.js **3D Digital Twin** for each property.
+- Generate a branded, downloadable PDF report directly in the browser.
+- View Google Maps when configured, with a graceful fallback when no API key is present.
+
+### A complete platform workflow
+
+- Floating rule-based AI chatbot for property, EMI, pricing, and area questions.
+- Authenticated users can list properties with up to eight photos.
+- Admin approval workflow keeps user-submitted listings pending until reviewed.
+- AI interior design suggestions with optional OpenAI image generation and a no-key inspiration fallback.
+- JWT authentication, bcrypt password hashing, role-based access, user dashboard, and admin analytics.
 
 ---
+
+## Architecture
+
+```mermaid
+flowchart LR
+  Browser[React + Vite + Tailwind] -->|REST /api| API[Node.js + Express]
+  API --> DB[(MongoDB)]
+  API -->|ML requests| AI[Python + FastAPI]
+  AI --> Models[Price prediction\nForecasting\nRecommendations\nChatbot]
+```
+
+The frontend is the user-facing application, the Express backend owns authentication and property workflows, MongoDB stores users and listings, and the FastAPI service handles the machine-learning features.
 
 ## Project structure
 
@@ -64,6 +102,19 @@ bricksbrain-ai/
 ---
 
 ## Quick start
+
+### Prerequisites
+
+- Node.js 18 or newer
+- Python 3.10 or newer
+- A MongoDB instance, local or Atlas
+
+### Clone and enter the project
+
+```bash
+git clone https://github.com/Sachin993533/Bricksbrain-AI.git
+cd Bricksbrain-AI
+```
 
 ### 1. MongoDB
 Run MongoDB locally (`mongod`) or use a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster.
@@ -139,7 +190,7 @@ VITE_GOOGLE_MAPS_API_KEY=            # optional — leave blank to use the built
 
 ---
 
-## Key API endpoints
+## API overview
 
 ```
 POST   /api/auth/register
